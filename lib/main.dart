@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:humanoid_robo_app/presentation/bloc/control_bloc/control_bloc.dart';
 import 'package:humanoid_robo_app/presentation/pages/splash_page.dart';
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return BlocProvider(
       create: (context) => ControlBloc(),
       child: MaterialApp(
