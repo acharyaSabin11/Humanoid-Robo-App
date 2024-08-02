@@ -4,12 +4,14 @@ import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
 class AppButton extends StatelessWidget {
   final VoidCallback onTap;
   final String title;
-  final double width;
+  final double? width;
+  final double height;
   const AppButton({
     super.key,
     required this.onTap,
     required this.title,
-    this.width = 150,
+    this.width,
+    this.height = 40,
   });
 
   @override
@@ -17,13 +19,13 @@ class AppButton extends StatelessWidget {
     return Material(
       elevation: 6,
       color: AppColors.userInteractionColor,
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(5),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(5),
         splashColor: AppColors.userInteractionColor.withOpacity(0.1),
         child: Container(
-          height: 40,
+          height: height,
           width: width,
           constraints: const BoxConstraints(minWidth: 60, maxWidth: 300),
           child: Center(
