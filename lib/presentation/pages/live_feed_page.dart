@@ -1,9 +1,8 @@
-import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
+import 'package:humanoid_robo_app/presentation/bloc/distance_bloc/distance_bloc.dart';
 import 'package:humanoid_robo_app/presentation/widgets/app_button.dart';
 import 'package:humanoid_robo_app/presentation/widgets/image_stream_widget.dart';
 
@@ -67,19 +66,25 @@ class _LiveFeedPageState extends State<LiveFeedPage> {
               ],
             ),
             AppButton(
-              onTap: () {},
+              onTap: () {
+                BlocProvider.of<DistanceBloc>(context).add(GetDistance());
+              },
               title: 'Calculate Distance',
               width: 200,
             ),
             const SizedBox(height: 5),
-            Text(
-              'Image at Distance: 34.6cm',
-              style: TextStyle(
-                color: AppColors.userInteractionColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+            BlocBuilder<DistanceBloc, DistanceState>(
+              builder: (context, state) {
+                return Text(
+                  'Image at Distance: ${state.distance}',
+                  style: const TextStyle(
+                    color: AppColors.userInteractionColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              },
             ),
           ],
         ),
