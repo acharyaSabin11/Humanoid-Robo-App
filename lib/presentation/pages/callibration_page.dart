@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
+import 'package:humanoid_robo_app/presentation/bloc/callibration_bloc/callibration_bloc.dart';
 import 'package:humanoid_robo_app/presentation/widgets/app_button.dart';
 
 class CallibrationPage extends StatelessWidget {
@@ -12,123 +14,174 @@ class CallibrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        firstNode.unfocus();
-        secondNode.unfocus();
+    return BlocListener<CallibrationBloc, CallibrationState>(
+      listener: (context, state) {
+        print('Serv');
+        if (state is ErrorState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+        }
       },
-      child: Scaffold(
-        backgroundColor: AppColors.scaffoldBGColor,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      const Icon(
-                        Icons.straighten,
-                        size: 50,
-                        color: AppColors.userInteractionColor,
-                      ),
-                      const Text(
-                        'Parameters Callibration',
-                        style: TextStyle(
-                          color: AppColors.userInteractionColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () {
+          firstNode.unfocus();
+          secondNode.unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.scaffoldBGColor,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: BlocBuilder<CallibrationBloc, CallibrationState>(
+                builder: (context, state) {
+                  return SingleChildScrollView(
+                    child: Stack(
+                      children: [
+                        Column(
+                          children: [
+                            const Icon(
+                              Icons.straighten,
+                              size: 50,
+                              color: AppColors.userInteractionColor,
+                            ),
+                            const Text(
+                              'Parameters Callibration',
+                              style: TextStyle(
+                                color: AppColors.userInteractionColor,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 30),
+                            CallibrationBox(
+                              title: 'First Distance (cm)',
+                              distanceController: firstDistanceController,
+                              focusNode: firstNode,
+                              done: (state is FirstDistanceDone ||
+                                  state is SecondDistanceDone ||
+                                  state is CallibrationDone),
+                              onTap: () {
+                                if (firstDistanceController.text.isNotEmpty) {
+                                  BlocProvider.of<CallibrationBloc>(context)
+                                      .add(FirstDistanceComputeEvent(
+                                          firstDistance: double.parse(
+                                              firstDistanceController.text)));
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 30),
+                            if (state is FirstDistanceDone ||
+                                state is CallibrationDone ||
+                                state is SecondDistanceDone)
+                              CallibrationBox(
+                                title: 'Second Distance (cm)',
+                                distanceController: secondDistanceController,
+                                focusNode: secondNode,
+                                done: (state is SecondDistanceDone ||
+                                    state is CallibrationDone),
+                                onTap: () {
+                                  if (secondDistanceController
+                                      .text.isNotEmpty) {
+                                    BlocProvider.of<CallibrationBloc>(context)
+                                        .add(
+                                      SecondDistanceComputeEvent(
+                                        secondDistance: double.parse(
+                                            secondDistanceController.text),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            const SizedBox(height: 30),
+                            if (state is CallibrationDone)
+                              Column(
+                                children: [
+                                  const Text(
+                                    'Parameters',
+                                    style: TextStyle(
+                                      color: AppColors.userInteractionColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Focal Length:',
+                                        style: const TextStyle(
+                                          color: AppColors.textBlackColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Text(
+                                        '${state.callibrationParameters!['focal-length']} cm',
+                                        style: const TextStyle(
+                                          color: AppColors.textBlackColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Tan Theta:',
+                                        style: const TextStyle(
+                                          color: AppColors.textBlackColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Text(
+                                        '${state.callibrationParameters!['tantheta']}',
+                                        style: const TextStyle(
+                                          color: AppColors.textBlackColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                          ],
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 30),
-                      CallibrationBox(
-                        title: 'First Distance (cm)',
-                        distanceController: firstDistanceController,
-                        focusNode: firstNode,
-                        onTap: () {},
-                      ),
-                      const SizedBox(height: 30),
-                      CallibrationBox(
-                        title: 'Second Distance (cm)',
-                        distanceController: secondDistanceController,
-                        focusNode: secondNode,
-                        onTap: () {},
-                      ),
-                      const SizedBox(height: 30),
-                      const Text(
-                        'Parameters',
-                        style: TextStyle(
-                          color: AppColors.userInteractionColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 10),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Focal Length:',
-                            style: const TextStyle(
-                              color: AppColors.textBlackColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                        if (state is CallibrationDone ||
+                            state is SecondDistanceDone)
+                          Container(
+                            width: double.maxFinite,
+                            height: MediaQuery.of(context).size.height -
+                                MediaQuery.of(context).padding.top -
+                                MediaQuery.of(context).padding.bottom -
+                                2 * 20,
+                            alignment: Alignment.bottomCenter,
+                            child: AppButton(
+                              onTap: () {
+                                BlocProvider.of<CallibrationBloc>(context)
+                                    .add(CallibrateEvent());
+                              },
+                              title: 'Callibrate',
+                              height: 50,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '0.5 cm',
-                            style: const TextStyle(
-                              color: AppColors.textBlackColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Tan Theta:',
-                            style: const TextStyle(
-                              color: AppColors.textBlackColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '2.56',
-                            style: const TextStyle(
-                              color: AppColors.textBlackColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: double.maxFinite,
-                    height: MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom -
-                        2 * 20,
-                    alignment: Alignment.bottomCenter,
-                    child: AppButton(
-                      onTap: () {},
-                      title: 'Callibrate',
-                      height: 50,
+                          )
+                      ],
                     ),
-                  )
-                ],
+                  );
+                },
               ),
             ),
           ),
@@ -144,6 +197,7 @@ class CallibrationBox extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
   final Widget? optionalWidget;
+  final bool done;
   const CallibrationBox({
     super.key,
     required this.distanceController,
@@ -151,6 +205,7 @@ class CallibrationBox extends StatelessWidget {
     required this.title,
     required this.onTap,
     this.optionalWidget,
+    required this.done,
   });
 
   @override
@@ -172,17 +227,33 @@ class CallibrationBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: AppColors.userInteractionColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-            ),
-            textAlign: TextAlign.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: AppColors.userInteractionColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              if (done)
+                const Text(
+                  'Done',
+                  style: TextStyle(
+                    color: AppColors.userInteractionColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+            ],
           ),
           const SizedBox(height: 15),
           TextField(
+            controller: distanceController,
             focusNode: focusNode,
             decoration: const InputDecoration(
               filled: true,
@@ -205,7 +276,7 @@ class CallibrationBox extends StatelessWidget {
           const SizedBox(height: 15),
           Center(
             child: AppButton(
-              onTap: () {},
+              onTap: onTap,
               title: 'Get Bounding Boxes',
               height: 50,
             ),
