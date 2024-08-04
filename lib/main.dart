@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:humanoid_robo_app/presentation/bloc/bloc/saveimages_bloc.dart';
 import 'package:humanoid_robo_app/presentation/bloc/callibration_bloc/callibration_bloc.dart';
 import 'package:humanoid_robo_app/presentation/bloc/control_bloc/control_bloc.dart';
 import 'package:humanoid_robo_app/presentation/bloc/distance_bloc/distance_bloc.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => DistanceBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SaveimagesBloc(),
         ),
       ],
       child: MaterialApp(

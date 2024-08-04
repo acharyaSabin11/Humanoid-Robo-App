@@ -31,7 +31,8 @@ class DistanceBloc extends Bloc<DistanceEvent, DistanceState> {
         final body = jsonDecode(response.body);
         print(body['Distance']);
         if (body['Object'] == true) {
-          emit(GotDistance(distance: '${body['Distance']}'));
+          emit(GotDistance(
+              distance: '${(body['Distance'] as double).round()} cm'));
         } else {
           emit(const GotDistance(distance: 'Error Getting Distance'));
         }

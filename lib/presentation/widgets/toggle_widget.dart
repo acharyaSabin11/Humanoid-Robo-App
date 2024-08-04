@@ -49,6 +49,7 @@ class ToggleWidget extends StatelessWidget {
                           : AppColors.inactiveButtonColor)
                       .withOpacity(0.1),
                   child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     height: 30,
                     constraints: const BoxConstraints(minWidth: 60),
                     child: Center(

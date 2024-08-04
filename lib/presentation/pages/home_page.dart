@@ -3,6 +3,7 @@ import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
 import 'package:humanoid_robo_app/presentation/pages/callibration_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/control_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/live_feed_page.dart';
+import 'package:humanoid_robo_app/presentation/pages/save_page.dart';
 import 'package:humanoid_robo_app/presentation/widgets/feature_box.dart';
 
 class HomePage extends StatelessWidget {
@@ -79,9 +80,12 @@ class HomePage extends StatelessWidget {
                           },
                         ),
                         FeatureBox(
-                          iconData: Icons.access_time,
-                          title: 'Comming Soon',
-                          onTap: () {},
+                          iconData: Icons.image,
+                          title: 'Dataset Generation',
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const SavePage()));
+                          },
                         ),
                         FeatureBox(
                           iconData: Icons.access_time,
