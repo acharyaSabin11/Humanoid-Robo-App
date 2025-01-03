@@ -3,6 +3,7 @@ import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
 import 'package:humanoid_robo_app/presentation/pages/callibration_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/control_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/live_feed_page.dart';
+import 'package:humanoid_robo_app/presentation/pages/motion_planning_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/save_page.dart';
 import 'package:humanoid_robo_app/presentation/widgets/feature_box.dart';
 
@@ -88,6 +89,15 @@ class HomePage extends StatelessWidget {
                           },
                         ),
                         FeatureBox(
+                          iconData: Icons.directions_run,
+                          title: 'Motion Planning',
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const MotionPlanningPage()));
+                          },
+                        ),
+                        FeatureBox(
                           iconData: Icons.access_time,
                           title: 'Comming Soon',
                           onTap: () {},
@@ -95,11 +105,6 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-                FeatureBox(
-                  iconData: Icons.access_time,
-                  title: 'Comming Soon',
-                  onTap: () {},
                 ),
               ],
             ),
