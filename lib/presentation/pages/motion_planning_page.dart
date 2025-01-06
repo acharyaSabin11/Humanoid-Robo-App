@@ -39,7 +39,7 @@ class _MotionPlanningPageState extends State<MotionPlanningPage> {
   @override
   void initState() {
     super.initState();
-    ipController.text = '192.168.254.20';
+    ipController.text = '192.168.254.6';
   }
 
   @override
