@@ -104,6 +104,13 @@ class _RobotVisualizationPageState extends State<RobotVisualizationPage> {
                   },
                   child: const Text('Connect to WebSocket Server'),
                 ),
+                ElevatedButton(
+                    onPressed: () => {
+                          setState(() {
+                            webSocketConnected = true;
+                          })
+                        },
+                    child: const Text("Continue without Connection")),
               ],
             )
           : Column(
