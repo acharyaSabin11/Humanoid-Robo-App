@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:humanoid_robo_app/utils/constants.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,7 +19,7 @@ class CallibrationBloc extends Bloc<CallibrationEvent, CallibrationState> {
     try {
       var response = await http
           .post(
-            Uri.parse('http://192.168.254.16:3000/control/callibration'),
+            Uri.parse('${AppConstants.BASE_URL}/control/callibration'),
             headers: {'content-type': 'application/json'},
             body: jsonEncode(
               {'firstDistance': event.firstDistance},
@@ -43,7 +44,7 @@ class CallibrationBloc extends Bloc<CallibrationEvent, CallibrationState> {
     try {
       var response = await http
           .post(
-            Uri.parse('http://192.168.254.16:3000/control/callibration'),
+            Uri.parse('${AppConstants.BASE_URL}/control/callibration'),
             headers: {'content-type': 'application/json'},
             body: jsonEncode(
               {'secondDistance': event.secondDistance},
@@ -68,7 +69,7 @@ class CallibrationBloc extends Bloc<CallibrationEvent, CallibrationState> {
     try {
       var response = await http
           .post(
-            Uri.parse('http://192.168.254.16:3000/control/callibration'),
+            Uri.parse('${AppConstants.BASE_URL}/control/callibration'),
             headers: {'content-type': 'application/json'},
             body: jsonEncode(
               {'callibrate': true},

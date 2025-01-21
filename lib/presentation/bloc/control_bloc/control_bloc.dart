@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:humanoid_robo_app/utils/constants.dart';
 
 part 'control_event.dart';
 part 'control_state.dart';
 
-const baseUrl = 'http://192.168.254.16:3000';
+const baseUrl = AppConstants.BASE_URL;
 
 class ControlBloc extends Bloc<ControlEvent, ControlState> {
   ControlBloc() : super(const NotStreamingState({})) {

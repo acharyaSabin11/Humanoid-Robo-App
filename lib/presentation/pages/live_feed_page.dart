@@ -5,6 +5,7 @@ import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
 import 'package:humanoid_robo_app/presentation/bloc/distance_bloc/distance_bloc.dart';
 import 'package:humanoid_robo_app/presentation/widgets/app_button.dart';
 import 'package:humanoid_robo_app/presentation/widgets/image_stream_widget.dart';
+import 'package:humanoid_robo_app/utils/constants.dart';
 
 class LiveFeedPage extends StatefulWidget {
   const LiveFeedPage({super.key});
@@ -51,14 +52,14 @@ class _LiveFeedPageState extends State<LiveFeedPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ImageStreamWidget(
-                  url: 'http://192.168.254.16:3000/control/stream1',
+                  url: '${AppConstants.BASE_URL}/control/stream1',
                   height: height / scaleFactor,
                   width: width / scaleFactor,
                   label: 'Left-Cam',
                 ),
                 const SizedBox(width: 30),
                 ImageStreamWidget(
-                  url: 'http://192.168.254.16:3000/control/stream2',
+                  url: '${AppConstants.BASE_URL}/control/stream2',
                   height: height / scaleFactor,
                   width: width / scaleFactor,
                   label: 'Right-Cam',

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:humanoid_robo_app/utils/constants.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,7 +26,7 @@ class SaveimagesBloc extends Bloc<SaveimagesEvent, SaveimagesState> {
     try {
       var response = await http
           .post(
-            Uri.parse('http://192.168.254.16:3000/control/save'),
+            Uri.parse('${AppConstants.BASE_URL}/control/save'),
             headers: {'content-type': 'application/json'},
             body: jsonEncode(
               {'save': task},

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:humanoid_robo_app/utils/constants.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,12 +17,12 @@ class DistanceBloc extends Bloc<DistanceEvent, DistanceState> {
     try {
       var response = await http
           .get(
-            Uri.parse('http://192.168.254.16:3000/control/distance'),
+            Uri.parse('${AppConstants.BASE_URL}/control/distance'),
           )
           .timeout(const Duration(seconds: 5));
       response = await http
           .get(
-            Uri.parse('http://192.168.254.16:3000/control/distance'),
+            Uri.parse('${AppConstants.BASE_URL}/control/distance'),
           )
           .timeout(const Duration(seconds: 5));
       if (response.statusCode != 200) {
