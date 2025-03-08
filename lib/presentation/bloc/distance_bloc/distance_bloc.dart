@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:humanoid_robo_app/utils/constants.dart';
 import 'package:meta/meta.dart';
@@ -20,11 +19,11 @@ class DistanceBloc extends Bloc<DistanceEvent, DistanceState> {
             Uri.parse('${AppConstants.BASE_URL}/control/distance'),
           )
           .timeout(const Duration(seconds: 5));
-      response = await http
-          .get(
-            Uri.parse('${AppConstants.BASE_URL}/control/distance'),
-          )
-          .timeout(const Duration(seconds: 5));
+      // response = await http
+      //     .get(
+      //       Uri.parse('${AppConstants.BASE_URL}/control/distance'),
+      //     )
+      //     .timeout(const Duration(seconds: 5));
       if (response.statusCode != 200) {
         print('Here');
         emit(const GotDistance(distance: 'Error Getting Distance'));
@@ -39,6 +38,7 @@ class DistanceBloc extends Bloc<DistanceEvent, DistanceState> {
         }
       }
     } catch (e) {
+      print(e);
       emit(const GotDistance(distance: 'Server Error'));
     }
   }

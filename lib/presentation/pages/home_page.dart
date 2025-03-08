@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:humanoid_robo_app/core/configs/colors/app_colors.dart';
+import 'package:humanoid_robo_app/presentation/pages/all_motions_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/callibration_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/control_page.dart';
+import 'package:humanoid_robo_app/presentation/pages/final_action_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/live_feed_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/motion_planning_page.dart';
 import 'package:humanoid_robo_app/presentation/pages/robot_visualization_page.dart';
@@ -70,6 +72,18 @@ class HomePage extends StatelessWidget {
                           onTap: () {},
                         ),
                         FeatureBox(
+                          iconData: Icons.android,
+                          title: 'All Motions',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AllMotionsPage(),
+                              ),
+                            );
+                          },
+                        ),
+                        FeatureBox(
                           iconData: Icons.straighten,
                           title: 'Parameter Calibration',
                           onTap: () {
@@ -108,9 +122,12 @@ class HomePage extends StatelessWidget {
                           },
                         ),
                         FeatureBox(
-                          iconData: Icons.access_time,
-                          title: 'Comming Soon',
-                          onTap: () {},
+                          iconData: Icons.fire_extinguisher,
+                          title: 'Final Action',
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const FinalActionPage()));
+                          },
                         ),
                       ],
                     ),
